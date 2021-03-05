@@ -22,6 +22,8 @@ public class GUIcore implements ActionListener {
     private static JPanel panel;
     private static JFrame frame;
 
+    FileChooser f1 = new FileChooser();
+
     public static void GUIcore(){
 
         panel = new JPanel();
@@ -63,6 +65,8 @@ public class GUIcore implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        f1.OpenFileChooser();
+
         String user = userText.getText();
         String password = passwordText.getText();
         setUsername(user);
@@ -79,9 +83,7 @@ public class GUIcore implements ActionListener {
 
         new Login(driver);
 
-        Sleep();
         success.setText("Logging in to D2L...");
-        Sleep();
 
         try {
             new ScrapeCalendar(driver);
