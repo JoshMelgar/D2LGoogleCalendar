@@ -12,5 +12,8 @@ public class Main {
 
         GUIcore gc1 = new GUIcore();
         gc1.GUIcore();
+
+        FileChooser f1 = new FileChooser();
+        f1.OpenFileChooser();
     }
 }
