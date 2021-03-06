@@ -33,11 +33,22 @@ public class Login {
         password.sendKeys(gc1.getPassword());
         loginButton.click();
 
-        driver.switchTo().frame("duo_iframe");
+        gc1.setLabel("Checking Login...");
+
+        try{
+            driver.switchTo().frame("duo_iframe");
+            gc1.setLabel("Checking Login...");
+        } catch (Exception e) {
+            System.out.println("Incorrect Login");
+        }
+
+        gc1.setLabel("Logging in...");
 
         WebDriverWait wait = new WebDriverWait(driver, 5);
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='positive auth-button'][.='Send Me a Push ']"))).click();// instead of id u can use cssSelector or xpath of ur element.
-
-        System.out.println("Waiting for DUO verification...");
+        try{
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='positive auth-button'][.='Send Me a Push ']"))).click();
+        } catch (Exception e) {
+            System.out.println("Could not find webpage, please try again.");
+        }
     }
 }

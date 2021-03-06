@@ -16,11 +16,14 @@ public class GUIcore implements ActionListener {
     private static JLabel passwordLabel;
     private static JPasswordField passwordText;
     private static JButton button;
-    private static JLabel success;
+    private static JLabel process;
     private static String user;
     private static String password;
     private static JPanel panel;
     private static JFrame frame;
+
+    WriteToCSV wtc1 = new WriteToCSV();
+    ProcessingGUI pc1 = new ProcessingGUI();
 
     public static void GUIcore(){
 
@@ -53,9 +56,9 @@ public class GUIcore implements ActionListener {
         button.addActionListener(new GUIcore());
         panel.add(button);
 
-        success = new JLabel("");
-        success.setBounds(10, 110, 300, 25);
-        panel.add(success);
+        process = new JLabel("");
+        process.setBounds(10, 110, 300, 25);
+        panel.add(process);
 
         frame.setVisible(true);
 
@@ -68,7 +71,7 @@ public class GUIcore implements ActionListener {
         setUsername(user);
         setPassword(password);
 
-        success.setText("Checking login information...");
+        pc1.Processing();
 
         System.setProperty("webdriver.chrome.driver", "src/resources/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
@@ -79,19 +82,17 @@ public class GUIcore implements ActionListener {
 
         new Login(driver);
 
-        success.setText("Logging in to D2L...");
-
         try {
             new ScrapeCalendar(driver);
-            Sleep();
-            success.setText("Copying calender events...");
-            Sleep();
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        success.setText("Finished!");
+
+        wtc1.writeCSV();
+
+        process.setText("Finished!");
     }
 
 
@@ -102,20 +103,24 @@ public class GUIcore implements ActionListener {
     public void setPassword(String password){
         this.password = password;
     }
+    public void setLabel(String string){
+        process.setText(string);
+    }
     public String getUsername(){
         return user;
     }
     public String getPassword(){
         return password;
     }
+    public String getLabel(){
+        return process.getText();
+    }
+
     public void Sleep(){
-        try
-        {
+        try {
             Thread.sleep(1000);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
         }
     }
 }
